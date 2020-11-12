@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private string moveInputAxis = "Vertical";
-    private string turnInputAxis = "Horizontal";
+
+    private string InputAxisX = "Horizontal";
+    private string InputAxisY = "Vertical";
 
     private Rigidbody rigidBody;
 
@@ -21,27 +22,29 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        float moveAxis = Input.GetAxis(moveInputAxis);
-        float turnAxis = Input.GetAxis(turnInputAxis);
+        float moveXAxis = Input.GetAxis(InputAxisX);
+        float moveYAxis = Input.GetAxis(InputAxisY);
 
-        ApplyInput(moveAxis, turnAxis);
+        ApplyInput(moveXAxis, moveYAxis);
     }
 
 
-    private void ApplyInput(float moveInput, float turnInput)
+    private void ApplyInput(float moveX, float moveY)
     {
-        Move(moveInput);
-        Turn(turnInput);
+        MoveXAxis(moveX);
+        MoveYAxis(moveY);
+    }   
+
+    private void MoveXAxis(float input)
+    {
+        rigidBody.AddForce(new Vector3(1, 0, 0) * input * movingSpeed, ForceMode.Force);
     }
 
-    private void Move(float input)
+    private void MoveYAxis(float input)
     {
-        rigidBody.AddForce(transform.forward * input * movingSpeed, ForceMode.Force);
+        rigidBody.AddForce(new Vector3(0 ,1 ,0) * input * movingSpeed, ForceMode.Force);
     }
 
-    private void Turn(float input)
-    {
-        transform.Rotate(0, rotationRate * input * Time.deltaTime, 0);
-    }
+ 
 
 }
